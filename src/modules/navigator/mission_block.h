@@ -73,12 +73,12 @@ protected:
 	 * Check if mission item has been reached
 	 * @return true if successfully reached
 	 */
-	bool is_mission_item_reached();
+	bool is_navigator_item_reached();
 
 	/**
 	 * Reset all reached flags
 	 */
-	void reset_mission_item_reached();
+	void reset_navigator_item_reached();
 
 	/**
 	 * Convert a mission item to a position setpoint
@@ -86,7 +86,7 @@ protected:
 	 * @param the mission item to convert
 	 * @param the position setpoint that needs to be set
 	 */
-	void mission_item_to_position_setpoint(const mission_item_s *item, position_setpoint_s *sp);
+	void navigator_item_to_position_setpoint(const navigator_item_s *item, position_setpoint_s *sp);
 
 	/**
 	 * Set previous position setpoint to current setpoint
@@ -123,11 +123,11 @@ protected:
 	/**
 	 * Convert a mission item to a command
 	 */
-	void mission_item_to_vehicle_command(const struct mission_item_s *item, struct vehicle_command_s *cmd);
+	void navigator_item_to_vehicle_command(const struct mission_item_s *item, struct vehicle_command_s *cmd);
 
 	void issue_command(const struct mission_item_s *item);
 
-	float get_time_inside(const struct mission_item_s &item);
+	float get_time_inside(const struct navigator_item_s &item);
 
 	mission_item_s _mission_item{};
 	navigator_item_s _navigator_item{};

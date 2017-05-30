@@ -95,7 +95,7 @@ RTL::on_activation()
 {
 	set_current_position_item(&_mission_item);
 	struct position_setpoint_triplet_s *pos_sp_triplet = _navigator->get_position_setpoint_triplet();
-	mission_item_to_position_setpoint(&_mission_item, &pos_sp_triplet->current);
+	navigator_item_to_position_setpoint(&_navigator_item, &pos_sp_triplet->current);
 	pos_sp_triplet->previous.valid = false;
 	pos_sp_triplet->next.valid = false;
 
@@ -125,7 +125,7 @@ RTL::on_activation()
 void
 RTL::on_active()
 {
-	if (_rtl_state != RTL_STATE_LANDED && is_mission_item_reached()) {
+	if (_rtl_state != RTL_STATE_LANDED && is_navigator_item_reached()) {
 		advance_rtl();
 		set_rtl_item();
 	}
@@ -312,10 +312,10 @@ RTL::set_rtl_item()
 		break;
 	}
 
-	reset_mission_item_reached();
+	reset_navigator_item_reached();
 
 	/* convert mission item to current position setpoint and make it valid */
-	mission_item_to_position_setpoint(&_mission_item, &pos_sp_triplet->current);
+	navigator_item_to_position_setpoint(&_navigator_item, &pos_sp_triplet->current);
 	pos_sp_triplet->next.valid = false;
 
 	_navigator->set_position_setpoint_triplet_updated();

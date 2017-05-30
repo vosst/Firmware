@@ -90,7 +90,7 @@ RCLoss::on_activation()
 void
 RCLoss::on_active()
 {
-	if (is_mission_item_reached()) {
+	if (is_navigator_item_reached()) {
 		advance_rcl();
 		set_rcl_item();
 	}
@@ -137,10 +137,10 @@ RCLoss::set_rcl_item()
 		break;
 	}
 
-	reset_mission_item_reached();
+	reset_navigator_item_reached();
 
 	/* convert mission item to current position setpoint and make it valid */
-	mission_item_to_position_setpoint(&_mission_item, &pos_sp_triplet->current);
+	navigator_item_to_position_setpoint(&_navigator_item, &pos_sp_triplet->current);
 	pos_sp_triplet->next.valid = false;
 
 	_navigator->set_position_setpoint_triplet_updated();
@@ -162,7 +162,7 @@ RCLoss::advance_rcl()
 			_rcl_state = RCL_STATE_TERMINATE;
 			_navigator->get_mission_result()->stay_in_failsafe = true;
 			_navigator->set_mission_result_updated();
-			reset_mission_item_reached();
+			reset_navigator_item_reached();
 		}
 
 		break;
@@ -173,7 +173,7 @@ RCLoss::advance_rcl()
 		mavlink_log_critical(_navigator->get_mavlink_log_pub(), "RC not regained, terminating");
 		_navigator->get_mission_result()->stay_in_failsafe = true;
 		_navigator->set_mission_result_updated();
-		reset_mission_item_reached();
+		reset_navigator_item_reached();
 		break;
 
 	case RCL_STATE_TERMINATE:
