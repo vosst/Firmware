@@ -104,7 +104,7 @@ after_success:
     fi
   # coveralls code coverage report
   - if [[ "${BUILD_TARGET}" = "tests_coverage" && "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
-         ./Tools/docker_run.sh 'cpp-coveralls -l coverage.info';
+         ./Tools/docker_run.sh 'cd build_posix_sitl_default; cpp-coveralls -l ../coverage.info';
     fi
 
 addons:
