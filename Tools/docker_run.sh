@@ -12,6 +12,10 @@ elif [[ $@ =~ .*eagle.* ]] || [[ $@ =~ .*excelsior.* ]]; then
 elif [[ $@ =~ .*clang.* ]] || [[ $@ =~ .*scan-build.* ]]; then
 	# clang tools
 	PX4_DOCKER_REPO="px4io/px4-dev-clang:2017-04-22"
+elif [[ $@ =~ .*cppcheck.* ]]; then
+	# need Ubuntu 17.04 for cppcheck cmake support
+	# TODO: remove this once px4io/px4-dev-base updates
+	PX4_DOCKER_REPO=px4io/px4-dev-base:ubuntu17.04
 elif [[ $@ =~ .*tests* ]]; then
 	# run all tests with simulation
 	PX4_DOCKER_REPO="px4io/px4-dev-simulation:2017-04-22"
