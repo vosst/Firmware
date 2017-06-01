@@ -181,7 +181,7 @@ excelsior_legacy_default: posix_excelsior_legacy qurt_excelsior_legacy
 .PHONY: qgc_firmware px4fmu_firmware misc_qgc_extra_firmware alt_firmware checks_bootloaders uavcan_firmware sizes check quick_check
 
 # QGroundControl flashable NuttX firmware
-qgc_firmware: px4fmu_firmware misc_firmware sizes
+qgc_firmware: px4fmu_firmware misc_qgc_extra_firmware sizes
 
 # px4fmu NuttX firmware
 px4fmu_firmware: \
@@ -262,7 +262,7 @@ px4_metadata: parameters_metadata airframe_metadata
 #  AWS_ACCESS_KEY_ID
 #  AWS_SECRET_ACCESS_KEY
 #  AWS_S3_BUCKET
-.PHONY: s3put_firmware s3put_qgc_firmware s3put_px4fmu_firmware s3put_misc_qgc_extra_firmware s3put_px4_metadata s3put_scan-build
+.PHONY: s3put_firmware s3put_qgc_firmware s3put_px4fmu_firmware s3put_misc_qgc_extra_firmware s3put_metadata s3put_scan-build s3put_cppcheck s3put_coverage
 
 Firmware.zip:
 	@rm -rf Firmware.zip
@@ -272,7 +272,6 @@ s3put_firmware: Firmware.zip
 	$(SRC_DIR)/Tools/s3put.sh Firmware.zip
 
 s3put_qgc_firmware: s3put_px4fmu_firmware s3put_misc_qgc_extra_firmware
-	@find $(SRC_DIR)/build_* -name "*.px4" -exec $(SRC_DIR)/Tools/s3put.sh "{}" \;
 
 s3put_px4fmu_firmware: px4fmu_firmware
 	@find $(SRC_DIR)/build_* -name "*.px4" -exec $(SRC_DIR)/Tools/s3put.sh "{}" \;
@@ -280,7 +279,7 @@ s3put_px4fmu_firmware: px4fmu_firmware
 s3put_misc_qgc_extra_firmware: misc_qgc_extra_firmware
 	@find $(SRC_DIR)/build_* -name "*.px4" -exec $(SRC_DIR)/Tools/s3put.sh "{}" \;
 
-s3put_px4_metadata: px4_metadata
+s3put_metadata: px4_metadata
 	@$(SRC_DIR)/Tools/s3put.sh airframes.md
 	@$(SRC_DIR)/Tools/s3put.sh airframes.xml
 	@$(SRC_DIR)/Tools/s3put.sh build_posix_sitl_default/parameters.xml
